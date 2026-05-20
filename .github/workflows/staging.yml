@@ -1,0 +1,17 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  deploy-staging:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Render Staging
+        run: |
+          curl -X POST -H 'Authorization: Bearer ${{ secrets.RENDER_API_KEY }}' \
+          'https://api.render.com/v1/services/${{ secrets.RENDER_STAGING_ID }}/deploys' \
+          -d '{}'

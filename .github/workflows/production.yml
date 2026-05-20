@@ -1,0 +1,17 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy-production:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Render Production
+        run: |
+          curl -X POST -H 'Authorization: Bearer ${{ secrets.RENDER_API_KEY }}' \
+          'https://api.render.com/v1/services/${{ secrets.RENDER_PROD_ID }}/deploys' \
+          -d '{}'
